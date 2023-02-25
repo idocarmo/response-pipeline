@@ -2,7 +2,12 @@
 
 **response-pipeline** spans the activities of the Disaster Response Pipeline project of Udacity's Data Science nanodegree program.
 
- 
+In this project we implemented a message classifier that aims to indicate what class a emergency/disaster message belongs to.
+
+The classifier was trained using disaster data from [Appen](https://www.figure-eight.com).
+
+How it works? Given a text input on the web app it returs the classes it might belong to. At total there are 36 classes that ranges from *medical aid* to *clothing*.
+
 
 ## Source code
 You can clone this repository in your machine with the command:
@@ -27,7 +32,7 @@ response-pipeline project requires:
 ### Environment
 You can prepare the pyhton environment  with all the dependencies using ``conda``:
 
-    conda env create -f src/environment.yml
+    conda env create -f environment.yml
 
 ## Repository Content
 
@@ -63,7 +68,7 @@ You can prepare the pyhton environment  with all the dependencies using ``conda`
 
 ## About the Classifier
 
-The main idea of the analysis was to understand what are the main characteristics that define a Airbnb superhost.
+The model used in the project was the RandomForestClassifier implemented on the Scikit-Learn Python package.
 
-Having the business problem in hands and following the CRISP-DM steps, we started taking a look at the available datasets, the meaning of their fields and their data types.
+As some of the 36 classes are extremely imbalanced, the Random Forest hyperparameter *class_weight* was set to 'balanced'. Also, to better improve the model performance on those imbalanced classes, the metric utilized on the grid search was the F1 score, that is, the harmonic mean of precision and recall.  
 
