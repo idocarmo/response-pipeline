@@ -1,4 +1,5 @@
 import json
+import joblib
 import plotly
 import pandas as pd
 
@@ -8,7 +9,6 @@ from nltk.tokenize import word_tokenize
 from flask import Flask
 from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar
-from sklearn.externals import joblib
 from sqlalchemy import create_engine
 
 
@@ -30,7 +30,7 @@ engine = create_engine('sqlite:///../data/disaster_response.db')
 df = pd.read_sql_table('messages', engine)
 
 # load model
-model = joblib.load("../models/trained_classifier.pkl")
+model = joblib.load("../model/trained_classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
