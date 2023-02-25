@@ -8,6 +8,20 @@ from sqlalchemy import create_engine
 sys.path.append('../')
 
 def load_data(messages_filepath, categories_filepath):
+    """Load messages data.
+    
+    Load messages and its categories data and pandas dataframes and
+    merge them.
+
+    Args:
+      messages_filepath:
+        String with messages file path.
+      categories_filepath:
+        String with messages categories file path.
+
+    Returns:
+      Merged messages and categories dataframe.
+    """
     df_messages = pd.read_csv(messages_filepath)
     df_categories = pd.read_csv(categories_filepath)
 
@@ -18,6 +32,18 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+    """Clean messages data.
+
+    Clean mesages data, converts categories list to binary columns and
+    remove duplicates from data.  
+
+    Args:
+        df:
+            Dataframe with messages data and categories.
+
+    Returns:
+        Cleaned messages dataframe.
+    """
 
     df = df.copy()
 
@@ -48,6 +74,17 @@ def clean_data(df):
 
 
 def save_data(df, database_filename):
+    """Saves the data as SQLite database.
+
+    Args:
+        df:
+            Dataframe with cleaned messages and categories data.
+        database_filename:
+            String with the name of the SQL database to be saved.
+
+    Returns:
+        None.
+    """
     engine = create_engine('sqlite:///' + database_filename)
     df.to_sql('messages', engine, index=False, if_exists='replace')
       
