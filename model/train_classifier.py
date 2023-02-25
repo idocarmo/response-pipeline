@@ -7,7 +7,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 import nltk
-nltk.download(['stopwords', 'punkt','wordnet'])
+nltk.download(['stopwords', 'punkt','wordnet', 'omw-1.4'])
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -52,7 +52,7 @@ def build_model():
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize, stop_words=stopwords.words('english'))),
         ('tfidf', TfidfTransformer()),
-        ('clf', MultiOutputClassifier(RandomForestClassifier()))
+        ('clf', MultiOutputClassifier(RandomForestClassifier(max_depth=12, class_weight='balanced_subsample')))
     ])
 
     parameters = {
