@@ -1,0 +1,14 @@
+name: disaster
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - nltk
+  - scikit-learn
+  - pandas
+  - numpy
+  - sqlalchemy[version='<2']
+  - flask
+  - plotly
+  - ipykernel
+prefix: /opt/conda/envs/disaster
