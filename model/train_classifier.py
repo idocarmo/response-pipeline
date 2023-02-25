@@ -25,6 +25,23 @@ sys.path.append('../')
 
 
 def load_data(database_filepath):
+    """Load the training data.
+
+    Loads the processed messages dataframe and returns is
+    splited as features, targets and targets names.   
+
+    Args:
+        database_filepath:
+            String with the SQL database file path.
+
+    Returns:
+        X:
+            Dataframe with features for model training.
+        Y:
+            Dataframe with the targets for model training.
+        Classes:
+            List with the names of classes of training data.
+    """
     engine = create_engine('sqlite:///' + database_filepath)
     df = pd.read_sql_table('messages', con=engine)
 
@@ -35,6 +52,18 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """Tokenize text.
+
+    remove special character, convert to lower case, tokenize and
+    lemmatize the input text.   
+
+    Args:
+        text:
+            Text string to be tokenized.
+
+    Returns:
+        List of normalized and lemmatized tokens of the input text.
+    """
     text = re.sub(r'[^a-zA-Z]', ' ', text.lower())
     
     tokens = word_tokenize(text)
@@ -49,6 +78,19 @@ def tokenize(text):
 
 
 def build_model():
+    """Buld a classifier model.
+
+    Builds a pipeline of data transforming with CountVectorizer and
+    TFidfTransformer for further multi output classification with a
+    Random Forest Classifier. Optmize the classifier with a grid 
+    search with cross validation.   
+
+    Args:
+        None
+
+    Returns:
+        A grid search object.
+    """
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize, stop_words=stopwords.words('english'))),
         ('tfidf', TfidfTransformer()),
@@ -74,6 +116,24 @@ def build_model():
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
+    """Evaluate the classifier
+
+    Prints the precision, recall and f1 score for both negative 
+    andposite classes for all categories present on the data   
+
+    Args:
+        model:
+            Classifier model.
+        X_test:
+            Test data for categories to be predicted.
+        Y_test:
+            True values of test data categories.
+        category_names:
+            Name of the categories.
+
+    Returns:
+        None
+    """
     
     Y_pred = model.predict(X_test)
     
@@ -84,6 +144,17 @@ def evaluate_model(model, X_test, Y_test, category_names):
 
 
 def save_model(model, model_filepath):
+    """Save the model as a picklefile  
+
+    Args:
+        model:
+            Classifier model.
+        model_filepah:
+            String with the path of the model to be saved
+
+    Returns:
+        None
+    """    
     pickle.dump(model, open(model_filepath, 'wb'))
 
 
